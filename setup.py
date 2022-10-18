@@ -56,8 +56,6 @@ setuptools.setup(
         'numpy',
         'orbax @ git+https://github.com/google/orbax#egg=orbax',
         'seqio-nightly',
-        't5',
-        'tensorflow',
         'tensorstore >= 0.1.20',
     ],
     extras_require={
