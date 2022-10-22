@@ -23,8 +23,8 @@ import enum
 import os
 import threading
 import time
-from typing import Any, Dict, Iterator, Mapping, MutableMapping, Optional, Sequence, TYPE_CHECKING, Tuple, Union, Protocol
-
+from typing import Any, Dict, Iterator, Mapping, MutableMapping, Optional, Sequence, TYPE_CHECKING, Tuple, Union
+from typing_extensions import Protocol
 from absl import logging
 import cached_property
 from clu import asynclib
