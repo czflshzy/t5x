@@ -1,6 +1,5 @@
-include '/content/t5x/examples/t5/t5_1_1/small.gin'
-include '/content/t5x/configs/runs/pretrain.gin'
-include 'ydyy.gin'
+include 't5x/examples/t5/t5_1_1/small.gin'
+include 't5x/configs/runs/pretrain.gin'
 
 # Register necessary SeqIO Tasks/Mixtures.
 import t5.data.mixtures
