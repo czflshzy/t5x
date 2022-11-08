@@ -1306,6 +1306,10 @@ def get_vocabulary(
     ValueError: if inputs and targets are not both present and vocabularies
       are different.
   """
+  
+  logging.warning(
+        ' \n \n \n   !!  \n \n \n \n')
+  
   if cfg.module:
     warnings.warn(
         'The use of `DatasetConfig.module` and `MIXTURE_OR_TASK_MODULE` is '
@@ -1313,11 +1317,34 @@ def get_vocabulary(
         DeprecationWarning)
     import_module(cfg.module)
 
+  #logging.warning(
+  #      ' \n \n \n   here?  \n \n \n \n')
+
   provider = seqio.get_mixture_or_task(cfg.mixture_or_task_name)
+  
+  #logging.warning(
+   #     ' \n \n \n   here？  \n \n \n \n')
+  
   features = provider.output_features
+  
+  #logging.warning(
+  #      ' \n \n \n   here??  \n \n \n \n')
+        
+  #print(features)
+
+  #logging.warning(
+  #      ' \n \n \n   endprint  \n \n \n \n')
 
   if 'inputs' in features and 'targets' in features:
+    #print("not here")
     return (features['inputs'].vocabulary, features['targets'].vocabulary)
+    
+    
+  #logging.warning(
+  #      ' \n \n \n   here???  \n \n \n \n')
+ 
+    
+    
 
   # If a mix of PassThroughVocabularies and other Vocabularies are specified,
   # use the non-PassThroughVocabularies.
@@ -1326,6 +1353,11 @@ def get_vocabulary(
       f.vocabulary
       for f in features.values()
       if not isinstance(f.vocabulary, seqio.PassThroughVocabulary))
+
+
+  #logging.warning(
+  #      ' \n \n \n   #  \n \n \n \n')
+
 
   # Otherwise, if all of the vocabs are PassThroughVocabularies, use those.
   if not vocabularies:
@@ -1397,7 +1429,8 @@ def get_dataset_inner(cfg: DatasetConfig,
     logging.info(
         "Initializing dataset for task '%s' with a replica batch size of %d and "
         'a seed of %d', cfg.mixture_or_task_name, batch_size, seed)
-
+  logging.warning(
+        ' \n \n \n   pre_ds  \n \n \n \n')
   ds = seqio.get_dataset(
       mixture_or_task_name=cfg.mixture_or_task_name,
       task_feature_lengths=cfg.task_feature_lengths,
@@ -1407,9 +1440,12 @@ def get_dataset_inner(cfg: DatasetConfig,
       feature_converter=feature_converter_cls(
           pack=cfg.pack, use_custom_packing_ops=cfg.use_custom_packing_ops),
       shard_info=shard_info,
-      use_cached=cfg.use_cached,
+      #use_cached=cfg.use_cached,
+      use_cached=False,
       seed=seed,
       trim_output_features=cfg.trim_output_features)
+  logging.warning(
+        ' \n \n \n   ds  \n \n \n \n')
   ds = ds.batch(batch_size, drop_remainder=True)
   return ds
 

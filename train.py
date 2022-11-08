@@ -235,21 +235,42 @@ def train(
   data_layout = partitioner.get_data_layout(train_dataset_cfg.batch_size)
   ds_shard_id = data_layout.shard_id
   num_ds_shards = data_layout.num_shards
+  
+  
 
   def _verify_matching_vocabs(cfg: utils.DatasetConfig):
     ds_vocabs = utils.get_vocabulary(cfg)
+    #print("begin")
+    #print(ds_vocabs)
+    #print("over")
+    #print(ds_vocabs[0])
+    #print(ds_vocabs[1])
+    #print(model.input_vocabulary)
+    #print(model.output_vocabulary)
+    #print("endoutput")
     if (ds_vocabs[0] != model.input_vocabulary or
         ds_vocabs[1] != model.output_vocabulary):
+      #print("??????????")
       raise ValueError(f'Model and Task vocabularies do not match:\n'
                        f'  task={cfg.mixture_or_task_name}\n'
                        f'  ds_vocabs=({ds_vocabs[0]}, {ds_vocabs[1]})\n'
                        f'  model.input_vocabulary={model.input_vocabulary}\n'
                        f'  model.output_vocabulary={model.output_vocabulary}\n')
 
+  #logging.warning(
+  #      ' \n \n \n   1  \n \n \n \n')
+
   _verify_matching_vocabs(train_dataset_cfg)
+
+  #logging.warning(
+  #      ' \n \n \n   2  \n \n \n \n')
 
   train_iter = get_dataset_fn(train_dataset_cfg, ds_shard_id, num_ds_shards,
                               model.FEATURE_CONVERTER_CLS)
+  
+  #logging.warning(
+  #      ' \n \n \n   3  \n \n \n \n')
+  
   if isinstance(train_iter, tf.data.Dataset):
     train_iter = clu.data.TfDatasetIterator(train_iter, checkpoint=True)
   elif not isinstance(train_iter, clu.data.dataset_iterator.DatasetIterator):
